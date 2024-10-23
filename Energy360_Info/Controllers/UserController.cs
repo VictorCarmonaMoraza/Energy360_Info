@@ -15,10 +15,15 @@ namespace Energy360_Info.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveUser(User user)
+        public async Task<IActionResult> SaveUser([FromBody] User user)
         {
             try
             {
+                var validateUserExist = await _userService.ValidateExist(user);
+                if (validateUserExist)
+                {
+                    return BadRequest(new { message="El usaurio "+user.NameUser+" ya existe en BD"});
+                }
                 await _userService.SaveUser(user);
                 return Ok(new {message ="Usuario creado con exito"});
             }

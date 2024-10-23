@@ -13,4 +13,6 @@ public interface IUserRepository
 
     //Obtener todos los usuarios
     Task<List<User>> GetAllUsers();
+
+    Task<bool> ValidateExist(User user);
 }

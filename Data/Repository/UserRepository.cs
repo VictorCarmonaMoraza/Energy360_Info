@@ -13,7 +13,7 @@ namespace Data.Repository
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
-        public UserRepository( ApplicationDbContext context)
+        public UserRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -29,8 +29,11 @@ namespace Data.Repository
         public async Task<List<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
+        }
 
-
-    }
+        public async Task<bool> ValidateExist(User user)
+        {
+            return await _context.Users.AnyAsync(x => x.NameUser == user.NameUser);
+        }
     }
 }

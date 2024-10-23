@@ -26,5 +26,10 @@ namespace Data.Services
         {
             return await _userRepository.GetAllUsers();
         }
+
+        public Task<bool> ValidateExist(User user)
+        {
+            return _userRepository.ValidateExist(user);
+        }
     }
 }
