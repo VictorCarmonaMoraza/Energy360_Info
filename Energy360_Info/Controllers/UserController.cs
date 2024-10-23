@@ -1,6 +1,6 @@
 ﻿using Data.IServices;
-using Energy360_Info.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Modelos.Entities;
 
 namespace Energy360_Info.Controllers
 {
@@ -22,16 +22,26 @@ namespace Energy360_Info.Controllers
                 var validateUserExist = await _userService.ValidateExist(user);
                 if (validateUserExist)
                 {
-                    return BadRequest(new { message="El usaurio "+user.NameUser+" ya existe en BD"});
+                    return BadRequest(new { message = "El usaurio "+user.NameUser+" ya existe en BD" });
                 }
-                await _userService.SaveUser(user);
-                return Ok(new {message ="Usuario creado con exito"});
+
+                var passworEncrip = Encrypt.EncryptPassword(user.Password);
+
+
+                var userWithEncript = new User
+                {
+                    NameUser = user.NameUser,
+                    Password = passworEncrip
+                };
+
+                await _userService.SaveUser(userWithEncript);
+                return Ok(new { message = "Usuario creado con exito" });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-           
+
         }
 
         //Obtener todos los usuarios

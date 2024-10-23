@@ -1,4 +1,4 @@
-﻿using Energy360_Info.Domain.Models;
+﻿using Modelos.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

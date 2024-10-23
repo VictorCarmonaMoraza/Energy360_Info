@@ -1,4 +1,5 @@
-﻿using Energy360_Info.Domain.Models;
+﻿
+using Modelos.Entities;
 
 namespace Data.IServices
 {

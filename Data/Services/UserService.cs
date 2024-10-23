@@ -1,11 +1,6 @@
 ﻿using Data.IRepository;
 using Data.IServices;
-using Energy360_Info.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Modelos.Entities;
 
 namespace Data.Services
 {
@@ -19,7 +14,7 @@ namespace Data.Services
 
         public async Task SaveUser(User user)
         {
-           await _userRepository.SaveUser(user);
+            await _userRepository.SaveUser(user);
         }
 
         public async Task<List<User>> GetAllUsers()

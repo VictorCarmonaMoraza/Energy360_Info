@@ -1,5 +1,5 @@
-﻿using Energy360_Info.Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Modelos.Entities;
 
 namespace Data.DbContext_Conection;
 

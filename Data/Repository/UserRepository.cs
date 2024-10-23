@@ -1,12 +1,7 @@
 ﻿using Data.DbContext_Conection;
 using Data.IRepository;
-using Energy360_Info.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Modelos.Entities;
 
 namespace Data.Repository
 {
