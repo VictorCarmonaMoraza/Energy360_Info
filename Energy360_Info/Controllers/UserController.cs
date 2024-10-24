@@ -4,7 +4,7 @@ using Modelos.Entities;
 
 namespace Energy360_Info.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -14,7 +14,7 @@ namespace Energy360_Info.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> SaveUser([FromBody] User user)
         {
             try
@@ -45,7 +45,7 @@ namespace Energy360_Info.Controllers
         }
 
         //Obtener todos los usuarios
-        [HttpGet]
+        [HttpGet("allUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
             try
