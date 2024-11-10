@@ -11,5 +11,6 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<RenewableEnergyPlant> RenewableEnergyPlants { get; set; }
+    public DbSet<RenewableEnergyDataHistory> RenewableEnergyDataHistorys { get; set; }
 }
 

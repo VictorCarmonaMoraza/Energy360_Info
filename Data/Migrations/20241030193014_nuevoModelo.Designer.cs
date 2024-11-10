@@ -4,6 +4,7 @@ using Data.DbContext_Conection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241030193014_nuevoModelo")]
+    partial class nuevoModelo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace Data.Migrations
                     b.Property<double>("CapacityFactor")
                         .HasColumnType("float");
 
-                    b.Property<decimal>("ConstructionCostAmpliacion")
+                    b.Property<decimal>("ConstructionCost")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<double>("EmissionsAvoided")
@@ -58,6 +61,8 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("HistoryId");
+
+                    b.HasIndex("PlantId");
 
                     b.ToTable("RenewableEnergyDataHistorys");
                 });
@@ -152,6 +157,17 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Modelos.Entities.RenewableEnergyDataHistory", b =>
+                {
+                    b.HasOne("Modelos.Entities.RenewableEnergyPlant", "Plant")
+                        .WithMany()
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plant");
                 });
 #pragma warning restore 612, 618
         }

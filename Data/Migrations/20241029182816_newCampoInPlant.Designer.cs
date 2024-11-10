@@ -4,6 +4,7 @@ using Data.DbContext_Conection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241029182816_newCampoInPlant")]
+    partial class newCampoInPlant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,46 +24,6 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Modelos.Entities.RenewableEnergyDataHistory", b =>
-                {
-                    b.Property<int>("HistoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistoryId"));
-
-                    b.Property<double>("CapacityFactor")
-                        .HasColumnType("float");
-
-                    b.Property<decimal>("ConstructionCostAmpliacion")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<double>("EmissionsAvoided")
-                        .HasColumnType("float");
-
-                    b.Property<double>("EstimatedAnnualProduction")
-                        .HasColumnType("float");
-
-                    b.Property<int>("NumberOfUnits")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlantId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RecordDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TechnologyProvider")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("HistoryId");
-
-                    b.ToTable("RenewableEnergyDataHistorys");
-                });
 
             modelBuilder.Entity("Modelos.Entities.RenewableEnergyPlant", b =>
                 {

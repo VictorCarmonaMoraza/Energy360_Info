@@ -15,6 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRenewableEnergyPlantService, RenewableEnergyPlantService>();
+builder.Services.AddScoped<IRenewableEnergyPlantRepository, RenewableEnergyPlantRepository>();
 
 //Obtenemos valores de cadena de conexion
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

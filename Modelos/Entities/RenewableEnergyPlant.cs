@@ -62,6 +62,7 @@ public class RenewableEnergyPlant
     public double EmissionsAvoided { get; set; }
 
     // Costo de construcción de la planta
+    [Column(TypeName = "decimal(18, 3)")] // Precisión de 18 dígitos con 2 decimales
     public decimal ConstructionCost { get; set; }
 
     // Número de turbinas o paneles (si aplica)
@@ -76,4 +77,7 @@ public class RenewableEnergyPlant
     [Required]
     [Column(TypeName = "varchar(50)")]
     public string TechnologyProvider { get; set; }
+
+    [Required]
+    public int Rating { get; set; }
 }
