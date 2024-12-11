@@ -38,5 +38,10 @@ namespace Data.Services
         {
             return await _renewableEnergyPlantRepository.ImportPlantFromExcel(excelFile);
         }
+
+        public async Task<bool> ValidatePlantExists(RenewableEnergyPlant renewableEnergyPlant)
+        {
+            return await _renewableEnergyPlantRepository.ValidatePlantExists(renewableEnergyPlant);
+        }
     }
 }

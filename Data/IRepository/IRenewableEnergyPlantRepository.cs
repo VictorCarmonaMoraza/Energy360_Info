@@ -11,5 +11,5 @@ public interface IRenewableEnergyPlantRepository
 
     Task<bool> ImportPlantFromExcel(Stream excelFile);
 
-    Task<bool> ValidateNamePlantExists(RenewableEnergyPlant renewableEnergyPlante);
+    Task<bool> ValidatePlantExists(RenewableEnergyPlant renewableEnergyPlante);
 }

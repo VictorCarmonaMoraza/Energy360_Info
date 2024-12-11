@@ -13,10 +13,13 @@ public class RenewableEnergyPlant
     [Column(TypeName = "varchar(50)")]
     public string Name { get; set; }
 
-    // Tipo de energía (eólica, solar, hidroeléctrica, biomasa, geotérmica, etc.)
+    // Clave foránea para el tipo de energía
     [Required]
-    [Column(TypeName = "varchar(50)")]
-    public string EnergyType { get; set; }
+    public int EnergyTypeId { get; set; }
+
+    // Propiedad de navegación para el tipo de energía
+    [ForeignKey("EnergyTypeId")]
+    public EnergyType EnergyType { get; set; }
 
     // País donde se encuentra la planta
     [Required]
@@ -80,4 +83,7 @@ public class RenewableEnergyPlant
 
     [Required]
     public int Rating { get; set; }
+
+    // Relación con RenewableEnergyDataHistory
+    public ICollection<RenewableEnergyDataHistory>? RenewableEnergyDataHistories { get; set; }
 }

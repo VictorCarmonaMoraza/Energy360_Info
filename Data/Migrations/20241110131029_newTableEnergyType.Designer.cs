@@ -4,6 +4,7 @@ using Data.DbContext_Conection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241110131029_newTableEnergyType")]
+    partial class newTableEnergyType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnergyTypeId"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -73,15 +73,10 @@ namespace Data.Migrations
                     b.Property<DateTime>("RecordDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("RenewableEnergyPlantId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TechnologyProvider")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("HistoryId");
-
-                    b.HasIndex("RenewableEnergyPlantId");
 
                     b.ToTable("RenewableEnergyDataHistorys");
                 });
@@ -111,8 +106,9 @@ namespace Data.Migrations
                     b.Property<double>("EmissionsAvoided")
                         .HasColumnType("float");
 
-                    b.Property<int>("EnergyTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("EnergyType")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
 
                     b.Property<double>("EstimatedAnnualProduction")
                         .HasColumnType("float");
@@ -153,8 +149,6 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EnergyTypeId");
-
                     b.ToTable("RenewableEnergyPlants");
                 });
 
@@ -177,29 +171,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Modelos.Entities.RenewableEnergyDataHistory", b =>
-                {
-                    b.HasOne("Modelos.Entities.RenewableEnergyPlant", null)
-                        .WithMany("RenewableEnergyDataHistories")
-                        .HasForeignKey("RenewableEnergyPlantId");
-                });
-
-            modelBuilder.Entity("Modelos.Entities.RenewableEnergyPlant", b =>
-                {
-                    b.HasOne("Modelos.Entities.EnergyType", "EnergyType")
-                        .WithMany()
-                        .HasForeignKey("EnergyTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EnergyType");
-                });
-
-            modelBuilder.Entity("Modelos.Entities.RenewableEnergyPlant", b =>
-                {
-                    b.Navigation("RenewableEnergyDataHistories");
                 });
 #pragma warning restore 612, 618
         }

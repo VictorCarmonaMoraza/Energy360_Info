@@ -12,6 +12,6 @@ namespace Data.IServices
 
         Task<bool> ImportPlantFromExcel(Stream excelFile);
 
-        Task<bool> ValidateNamePlantExists(RenewableEnergyPlant renewableEnergyPlant);
+        Task<bool> ValidatePlantExists(RenewableEnergyPlant renewableEnergyPlant);
     }
 }

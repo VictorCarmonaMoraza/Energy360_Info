@@ -22,7 +22,7 @@ namespace Energy360_Info.Controllers
             try
             {
                 // Verificar si la planta ya existe
-                bool exists = await _renewableEnergyPlantService.ValidateNamePlantExists(renewableEnergyPlant);
+                bool exists = await _renewableEnergyPlantService.ValidatePlantExists(renewableEnergyPlant);
                 if (exists)
                 {
                     return BadRequest(new { message = "La planta " + renewableEnergyPlant.Name + " ya existe en la base de datos." });
@@ -45,11 +45,12 @@ namespace Energy360_Info.Controllers
             try
             {
                 var plants = await _renewableEnergyPlantService.GetAllPlants();
+
                 return Ok(plants);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest("ha surgido un problema");
+                return BadRequest("ha surgido un problema"+ ex.Message);
             }
         }
 
@@ -58,6 +59,7 @@ namespace Energy360_Info.Controllers
         {
             try
             {
+
                 var history = await _renewableEnergyPlantService.GetHistoryPlant(id);
                 return Ok(history);
             }
@@ -102,6 +104,23 @@ namespace Energy360_Info.Controllers
 
             return Ok("File processed successfully.");
         }
+
+        [HttpGet("average")]
+        public async Task<IActionResult> GetAverageProduction()
+        {
+            try
+            {
+                //Obtenemos todas las plantas
+                var plants = await _renewableEnergyPlantService.GetAllPlants();
+                //var average = await _renewableEnergyPlantService.GetAverageProduction();
+                return Ok(plants);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
 
 
 

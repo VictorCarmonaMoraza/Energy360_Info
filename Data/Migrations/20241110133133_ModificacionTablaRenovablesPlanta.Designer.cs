@@ -4,6 +4,7 @@ using Data.DbContext_Conection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241110133133_ModificacionTablaRenovablesPlanta")]
+    partial class ModificacionTablaRenovablesPlanta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,15 +76,10 @@ namespace Data.Migrations
                     b.Property<DateTime>("RecordDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("RenewableEnergyPlantId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TechnologyProvider")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("HistoryId");
-
-                    b.HasIndex("RenewableEnergyPlantId");
 
                     b.ToTable("RenewableEnergyDataHistorys");
                 });
@@ -179,13 +177,6 @@ namespace Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Modelos.Entities.RenewableEnergyDataHistory", b =>
-                {
-                    b.HasOne("Modelos.Entities.RenewableEnergyPlant", null)
-                        .WithMany("RenewableEnergyDataHistories")
-                        .HasForeignKey("RenewableEnergyPlantId");
-                });
-
             modelBuilder.Entity("Modelos.Entities.RenewableEnergyPlant", b =>
                 {
                     b.HasOne("Modelos.Entities.EnergyType", "EnergyType")
@@ -195,11 +186,6 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.Navigation("EnergyType");
-                });
-
-            modelBuilder.Entity("Modelos.Entities.RenewableEnergyPlant", b =>
-                {
-                    b.Navigation("RenewableEnergyDataHistories");
                 });
 #pragma warning restore 612, 618
         }
