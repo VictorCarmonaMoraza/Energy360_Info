@@ -17,6 +17,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRenewableEnergyPlantService, RenewableEnergyPlantService>();
 builder.Services.AddScoped<IRenewableEnergyPlantRepository, RenewableEnergyPlantRepository>();
+builder.Services.AddScoped<IEnergyRepository, EnergyRepository>();
+builder.Services.AddScoped<IEnergyService, EnergyService>();
 
 //Obtenemos valores de cadena de conexion
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

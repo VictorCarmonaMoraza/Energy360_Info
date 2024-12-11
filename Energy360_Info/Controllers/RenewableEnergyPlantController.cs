@@ -16,6 +16,12 @@ namespace Energy360_Info.Controllers
             _renewableEnergyPlantService = renewableEnergyPlantService;
         }
 
+
+        /// <summary>
+        /// Creacion de una planta
+        /// </summary>
+        /// <param name="renewableEnergyPlant"></param>
+        /// <returns></returns>
         [HttpPost("create")]
         public async Task<IActionResult> SavePlant([FromBody] RenewableEnergyPlant renewableEnergyPlant)
         {
@@ -38,7 +44,10 @@ namespace Energy360_Info.Controllers
             }
         }
 
-        //Obtener todos los usuarios
+        /// <summary>
+        /// Obtenemos todas las plantas que tenemos en el sistema
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("allPlants")]
         public async Task<IActionResult> GetAllPlants()
         {
@@ -54,6 +63,11 @@ namespace Energy360_Info.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtenerr histortico de una plantab por su id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("historyPlant/{id}")]
         public async Task<IActionResult> GetHistoryPlant(int id)
         {
@@ -92,6 +106,11 @@ namespace Energy360_Info.Controllers
             }
         }
 
+        /// <summary>
+        /// Importar historica de plantas mediante excel
+        /// </summary>
+        /// <param name="file">nombre del fichero</param>
+        /// <returns></returns>
         [HttpPost("importar2")]
         public async Task<IActionResult> ImportExcel(IFormFile file)
         {
