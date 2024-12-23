@@ -17,9 +17,10 @@ public class RenewableEnergyPlant
     [Required]
     public int EnergyTypeId { get; set; }
 
-    // Propiedad de navegación para el tipo de energía
-    [ForeignKey("EnergyTypeId")]
-    public EnergyType EnergyType { get; set; }
+
+    //// Propiedad de navegación para el tipo de energía
+    //[ForeignKey("EnergyTypeId")]
+    //public EnergyType EnergyType { get; set; }
 
     // País donde se encuentra la planta
     [Required]
@@ -83,6 +84,8 @@ public class RenewableEnergyPlant
 
     [Required]
     public int Rating { get; set; }
+
+    public string History { get; set; }
 
     // Relación con RenewableEnergyDataHistory
     public ICollection<RenewableEnergyDataHistory>? RenewableEnergyDataHistories { get; set; }

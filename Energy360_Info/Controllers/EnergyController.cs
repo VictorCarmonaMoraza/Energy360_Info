@@ -27,5 +27,19 @@ namespace Energy360_Info.Controllers
                 return BadRequest("ha surgido un problema");
             }
         }
+
+        [HttpGet("typeEnergy/{id}")]
+        public async Task<IActionResult> GetTypeEnergy(int id)
+        {
+            try
+            {
+                var energy = await _energyService.GetEnergyTypeById(id);
+                return Ok(energy);
+            }
+            catch (Exception)
+            {
+                return BadRequest("ha surgido un problema");
+            }
+        }
     }
 }

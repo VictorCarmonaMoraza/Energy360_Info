@@ -124,4 +124,9 @@ public class RenewableEnergyPlantRepository : IRenewableEnergyPlantRepository
         );
         return exists;
     }
+
+    public Task<RenewableEnergyPlant> GetPlantById(int id)
+    {
+        return _context.RenewableEnergyPlants.FirstOrDefaultAsync(x => x.Id == id);
+    }
 }

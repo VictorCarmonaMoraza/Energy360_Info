@@ -6,5 +6,7 @@ namespace Data.IServices
     {
         //Obtener todos los tipos de energia
         Task<List<EnergyType>> GetAllEnergyTypes();
+
+        Task <EnergyType>GetEnergyTypeById(int id);
     }
 }

@@ -83,6 +83,21 @@ namespace Energy360_Info.Controllers
             }
         }
 
+        //Obtenr informacion de una planta por su id
+        [HttpGet("info/{id}")]
+        public async Task<IActionResult> GetPlantById(int id)
+        {
+            try
+            {
+                var plant = await _renewableEnergyPlantService.GetPlantById(id);
+                return Ok(plant);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost("importar")]
         public async Task<IActionResult> ImportarDesdeExcel([FromForm] IFormFile file)
         {

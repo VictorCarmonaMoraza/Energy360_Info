@@ -21,5 +21,10 @@ namespace Data.Services
         {
             return _energyRepository.GetAllEnergyTypes();
         }
+
+        public Task<EnergyType> GetEnergyTypeById(int id)
+        {
+            return _energyRepository.GetEnergyTypeById(id);
+        }
     }
 }

@@ -43,5 +43,10 @@ namespace Data.Services
         {
             return await _renewableEnergyPlantRepository.ValidatePlantExists(renewableEnergyPlant);
         }
+
+        public async Task<RenewableEnergyPlant> GetPlantById(int id)
+        {
+            return await _renewableEnergyPlantRepository.GetPlantById(id);
+        }
     }
 }

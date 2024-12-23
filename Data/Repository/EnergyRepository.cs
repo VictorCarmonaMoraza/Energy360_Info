@@ -19,5 +19,10 @@ namespace Data.Repository
         {
             return await _context.EnergyTypes.ToListAsync();
         }
+
+        public async Task<EnergyType> GetEnergyTypeById(int id)
+        {
+            return await _context.EnergyTypes.SingleOrDefaultAsync(x => x.EnergyTypeId == id);
+        }
     }
 }
