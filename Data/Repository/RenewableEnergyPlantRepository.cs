@@ -25,42 +25,10 @@ public class RenewableEnergyPlantRepository : IRenewableEnergyPlantRepository
     //Obtiene todos las plantas
     public async Task<List<RenewableEnergyPlant>> GetAllPlants()
     {
-        //Obtener todos los id de las plantas
-        var idsPlant = await _context.RenewableEnergyPlants.Select(x => x.Id).ToListAsync();
-        var listPlant = new List<RenewableEnergyPlant>();
-        //Por cada id de planta obtener el historial de la planta
-        foreach (var id in idsPlant)
-        {
-            // Obtener la planta
-            var plant = await _context.RenewableEnergyPlants
-                .FirstOrDefaultAsync(p => p.Id == id);
+        var plants = await _context.RenewableEnergyPlants
+        .ToListAsync();
 
-            if (plant != null)
-            {
-                // Obtener el historial de la planta
-                // Obtener los 10 registros más recientes o registros de los últimos 10 meses
-                var history = await _context.RenewableEnergyDataHistorys
-                    .Where(x => x.PlantId == id && x.RecordDate >= DateTime.Now.AddMonths(-10)) // Últimos 10 meses
-                    .OrderByDescending(x => x.RecordDate) // Ordenar por fecha descendente
-                    .Take(10) // Tomar los 10 registros más recientes
-                    .ToListAsync();
-
-                // Asignar el historial a la propiedad de la planta
-                plant.RenewableEnergyDataHistories = history.Any() ? history : null;
-
-                // Añadir la planta a la lista
-                listPlant.Add(plant);
-            }
-        }
-        return listPlant;
-
-        ////Devolverlo todo
-
-        //return await _context.RenewableEnergyPlants
-        // .Include(plant => plant.RenewableEnergyDataHistories) // Incluye el historial
-        // .Where(plant => plant.RenewableEnergyDataHistories.Any() || !plant.RenewableEnergyDataHistories.Any())
-        // .ToListAsync();
-
+        return plants;
     }
 
     public async Task<List<RenewableEnergyDataHistory>> GetHistoryPlant(int id)

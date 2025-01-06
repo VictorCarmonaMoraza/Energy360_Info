@@ -25,6 +25,10 @@ namespace Energy360_Info.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> SavePlant([FromBody] RenewableEnergyPlant renewableEnergyPlant)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+
             try
             {
                 // Verificar si la planta ya existe
