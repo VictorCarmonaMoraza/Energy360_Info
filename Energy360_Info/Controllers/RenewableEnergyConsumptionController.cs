@@ -68,6 +68,80 @@ namespace Energy360_Info.Controllers
             }
         }
 
+        //Obtencion del diario
+        //Obtención del consumo diario
+        [HttpGet("daily/{id}")]
+        public async Task<ActionResult<List<RenewableEnergyConsumption>>> GetDailyConsumption(int id, DateTime? dateStart = null, DateTime? dateEnd = null)
+        {
+            try
+            {
+                List<RenewableEnergyConsumption> consumptions;
+
+                if (dateStart.HasValue && dateEnd.HasValue)
+                {
+                    // Si se proporcionan ambas fechas, obtiene los consumos en el rango de fechas
+                    DateTime startDate = dateStart.Value.Date; // Asegura que la fecha de inicio sea a medianoche
+                    DateTime endDate = dateEnd.Value.Date.AddDays(1); // Incluye todo el último día
+                    consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, endDate);
+                }
+                else
+                {
+                    // Si no se proporcionan fechas, usa la fecha actual
+                    DateTime today = DateTime.Today;
+                    DateTime tomorrow = today.AddDays(1);
+                    consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, today, tomorrow);
+                }
+
+                if (consumptions == null || consumptions.Count == 0)
+                    return NotFound("No daily consumption data found for the specified plant within the provided date range.");
+
+                return Ok(consumptions);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        // Obtención del consumo mensual
+        [HttpGet("monthly/{id}")]
+        public async Task<ActionResult<List<RenewableEnergyConsumption>>> GetMonthlyConsumption(int id, DateTime? date = null)
+        {
+            try
+            {
+                List<RenewableEnergyConsumption> consumptions;
+
+                if (date.HasValue)
+                {
+                    // Si se proporciona una fecha, obtiene los consumos del mes especificado
+                    DateTime startDate = new DateTime(date.Value.Year, date.Value.Month, 1); // Primer día del mes
+                    DateTime endDate = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day); // La fecha exacta proporcionada
+                    endDate = endDate.AddDays(1); // Ajuste para incluir el último día hasta la medianoche
+                    consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, endDate);
+                }
+                else
+                {
+                    // Si no se proporciona una fecha, obtiene los consumos desde el primer día del mes actual hasta la fecha actual
+                    DateTime today = DateTime.Today;
+                    DateTime startDate = new DateTime(today.Year, today.Month, 1); // Primer día del mes
+                    consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, today.AddDays(1)); // Hasta la medianoche de hoy para incluir todo el día actual
+                }
+
+                if (consumptions == null || consumptions.Count == 0)
+                    return NotFound("No monthly consumption data found for the specified plant on the given date.");
+
+                return Ok(consumptions);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+
+
 
 
     }
