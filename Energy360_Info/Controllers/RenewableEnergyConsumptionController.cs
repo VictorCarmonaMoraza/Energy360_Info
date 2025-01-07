@@ -140,6 +140,44 @@ namespace Energy360_Info.Controllers
             }
         }
 
+        //Obtencion del consumo anual
+        [HttpGet("yearly/{id}")]
+        public async Task<ActionResult<List<RenewableEnergyConsumption>>> GetYearlyConsumption(int id, DateTime? date = null)
+        {
+            try
+            {
+                List<RenewableEnergyConsumption> consumptions;
+
+                if (date.HasValue)
+                {
+                    // Si se proporciona una fecha, obtiene los consumos del año especificado
+                    DateTime startDate = new DateTime(date.Value.Year, 1, 1); // Primer día del año
+                    DateTime endDate = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day); // La fecha exacta proporcionada
+                    endDate = endDate.AddDays(1); // Ajuste para incluir el último día hasta la medianoche
+                    consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, endDate);
+                }
+                else
+                {
+                    // Si no se proporciona una fecha, obtiene los consumos desde la misma fecha del año anterior hasta la fecha actual
+                    DateTime today = DateTime.Today;
+                    DateTime startDate = today.AddYears(-1); // Mismo día del año anterior
+                    DateTime endDate = today.AddDays(1); // Incluye todo el día actual hasta la medianoche
+
+                    consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, endDate);
+                }
+
+                if (consumptions == null || consumptions.Count == 0)
+                    return NotFound("No yearly consumption data found for the specified plant on the given date.");
+
+                return Ok(consumptions);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
 
 
 
