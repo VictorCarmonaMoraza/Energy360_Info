@@ -48,5 +48,16 @@ namespace Data.Services
         {
             return await _renewableEnergyPlantRepository.GetPlantById(id);
         }
+
+        public async Task<List<RenewableEnergyConsumption>> GetConsumptionByDateAndHour(int id, DateTime date)
+        {
+            return await _renewableEnergyPlantRepository.GetConsumptionByDateAndHour(id, date);
+        }
+
+        //metodo para llamar a GetConsumptionByDateRange
+        public async Task<List<RenewableEnergyConsumption>> GetConsumptionByDateRange(int id, DateTime startDate, DateTime endDate)
+        {
+            return await _renewableEnergyPlantRepository.GetConsumptionByDateRange(id, startDate, endDate);
+        }
     }
 }

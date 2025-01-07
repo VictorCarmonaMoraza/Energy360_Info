@@ -13,5 +13,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<RenewableEnergyPlant> RenewableEnergyPlants { get; set; }
     public DbSet<RenewableEnergyDataHistory> RenewableEnergyDataHistorys { get; set; }
     public DbSet<EnergyType> EnergyTypes { get; set; }
+    public DbSet<RenewableEnergyConsumption> RenewableEnergyConsumptions { get; set; }
 }
 

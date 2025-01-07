@@ -97,4 +97,23 @@ public class RenewableEnergyPlantRepository : IRenewableEnergyPlantRepository
     {
         return _context.RenewableEnergyPlants.FirstOrDefaultAsync(x => x.Id == id);
     }
+
+    public async Task<List<RenewableEnergyConsumption>> GetConsumptionByDateAndHour(int plantId, DateTime specificDateTime)
+    {
+        return await _context.RenewableEnergyConsumptions
+                             .Where(x => x.PlantId == plantId &&
+                                         x.Date.Date == specificDateTime.Date &&
+                                         x.Date.Hour == specificDateTime.Hour)
+                             .ToListAsync();
+    }
+
+    public async Task<List<RenewableEnergyConsumption>> GetConsumptionByDateRange(int plantId, DateTime startDate, DateTime endDate)
+    {
+        return await _context.RenewableEnergyConsumptions
+            .Where(x => x.PlantId == plantId && x.Date >= startDate && x.Date < endDate)
+            .ToListAsync();
+    }
+
+
+
 }

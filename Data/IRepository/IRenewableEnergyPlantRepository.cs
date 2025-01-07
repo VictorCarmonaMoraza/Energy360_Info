@@ -14,4 +14,8 @@ public interface IRenewableEnergyPlantRepository
     Task<bool> ValidatePlantExists(RenewableEnergyPlant renewableEnergyPlante);
 
     Task<RenewableEnergyPlant> GetPlantById(int id);
+
+    Task<List<RenewableEnergyConsumption>> GetConsumptionByDateAndHour(int id, DateTime date);
+
+    Task<List<RenewableEnergyConsumption>> GetConsumptionByDateRange(int id, DateTime startDate, DateTime endDate);
 }

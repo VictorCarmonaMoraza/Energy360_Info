@@ -15,5 +15,12 @@ namespace Data.IServices
         Task<bool> ValidatePlantExists(RenewableEnergyPlant renewableEnergyPlant);
 
         Task<RenewableEnergyPlant> GetPlantById(int id);
+
+        //Obtencion de todas las horas de consumo
+        Task<List<RenewableEnergyConsumption>> GetConsumptionByDateAndHour(int id, DateTime date);
+
+
+
+        Task<List<RenewableEnergyConsumption>>GetConsumptionByDateRange(int id, DateTime startDate, DateTime endDate);
     }
 }
