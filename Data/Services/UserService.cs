@@ -22,9 +22,26 @@ namespace Data.Services
             return await _userRepository.GetAllUsers();
         }
 
+        
+
         public Task<bool> ValidateExist(User user)
         {
             return _userRepository.ValidateExist(user);
+        }
+
+        public Task<string> CreatrToken(User user)
+        {
+            return _userRepository.CreatrToken(user);
+        }
+
+        public Task<bool> UsuarioExiste(string username)
+        {
+            return _userRepository.UsuarioExiste(username);
+        }
+
+        public Task<User> PrimeroBBDD(string username)
+        {
+            return _userRepository.PrimeroBBDD(username);
         }
     }
 }

@@ -12,5 +12,13 @@ namespace Data.IServices
 
         //Validar si un usuari existe en la BBDD
         Task<bool> ValidateExist(User user);
+
+        Task<string> CreatrToken(User user);
+
+        Task<bool> UsuarioExiste(string user);
+
+        Task<User> PrimeroBBDD(string username);
+
+
     }
 }

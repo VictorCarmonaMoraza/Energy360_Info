@@ -22,39 +22,16 @@ namespace Energy360_Info.Controllers
         public async Task<ActionResult<List<RenewableEnergyConsumption>>> GetHourlyConsumption(int id, DateTime? date = null)
         {
             // Si no se proporciona una fecha, usa la fecha actual
-            DateTime effectiveDate = date ?? DateTime.Today; // Usa DateTime.Today para evitar incluir la hora actual
+            DateTime effectiveDate = date ?? DateTime.Today;
 
             try
             {
-                List<RenewableEnergyConsumption> consumptions;
-                if (date.HasValue)
-                {
-                    // Si la fecha no incluye una hora específica (es decir, es exactamente medianoche)
-                    if (date.Value.TimeOfDay == TimeSpan.Zero)
-                    {
-                        // Establece la hora actual a la fecha dada
-                        effectiveDate = date.Value.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute).AddSeconds(DateTime.Now.Second);
-                        // Devuelve todos los registros para el día especificado
-                        DateTime startDate = effectiveDate.Date; // Medianoche del día especificado
-                        DateTime endDate = startDate.AddDays(1); // Medianoche del siguiente día
-                        consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, endDate);
-                    }
-                    else
-                    {
-                        // Establece la fecha efectiva con la hora exacta proporcionada
-                        effectiveDate = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day,
-                                                     date.Value.Hour, date.Value.Minute, date.Value.Second);
+                // Define el rango de fechas para obtener los consumos por hora
+                DateTime startDate = effectiveDate.Date; // Medianoche del día especificado o actual
+                DateTime endDate = startDate.AddDays(1); // Medianoche del siguiente día
 
-                        // Devuelve solo el registro para la hora especificada
-                        consumptions = await _renewableEnergyPlantService.GetConsumptionByDateAndHour(id, effectiveDate);
-                    }
-                }
-                else
-                {
-                    // Si no se proporciona una fecha, usa la fecha y hora actual
-                    effectiveDate = DateTime.Now;
-                    consumptions = await _renewableEnergyPlantService.GetConsumptionByDateAndHour(id, effectiveDate);
-                }
+                // Llama al servicio para obtener los datos de consumo dentro del rango de fecha
+                List<RenewableEnergyConsumption> consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, endDate);
 
                 if (consumptions == null || consumptions.Count == 0)
                     return NotFound("No hourly consumption data found for the specified plant on the given date.");
@@ -67,6 +44,7 @@ namespace Energy360_Info.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
+
 
         //Obtencion del diario
         //Obtención del consumo diario
@@ -105,31 +83,29 @@ namespace Energy360_Info.Controllers
         }
 
         // Obtención del consumo mensual
-        [HttpGet("monthly/{id}")]
-        public async Task<ActionResult<List<RenewableEnergyConsumption>>> GetMonthlyConsumption(int id, DateTime? date = null)
+        [HttpGet("monthly/{id}/{year}/{month}")]
+        public async Task<ActionResult<List<RenewableEnergyConsumption>>> GetMonthlyConsumption(int id, int year, int month)
         {
             try
             {
-                List<RenewableEnergyConsumption> consumptions;
-
-                if (date.HasValue)
+                // Validar el rango del mes
+                if (month < 1 || month > 12)
                 {
-                    // Si se proporciona una fecha, obtiene los consumos del mes especificado
-                    DateTime startDate = new DateTime(date.Value.Year, date.Value.Month, 1); // Primer día del mes
-                    DateTime endDate = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day); // La fecha exacta proporcionada
-                    endDate = endDate.AddDays(1); // Ajuste para incluir el último día hasta la medianoche
-                    consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, endDate);
-                }
-                else
-                {
-                    // Si no se proporciona una fecha, obtiene los consumos desde el primer día del mes actual hasta la fecha actual
-                    DateTime today = DateTime.Today;
-                    DateTime startDate = new DateTime(today.Year, today.Month, 1); // Primer día del mes
-                    consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, today.AddDays(1)); // Hasta la medianoche de hoy para incluir todo el día actual
+                    return BadRequest("Month must be between 1 and 12.");
                 }
 
+                // Obtener el rango de fechas para el mes especificado
+                DateTime startDate = new DateTime(year, month, 1); // Primer día del mes
+                DateTime endDate = startDate.AddMonths(1).AddDays(-1).AddDays(1); // Último día del mes hasta la medianoche
+
+                // Llamar al servicio con el rango de fechas
+                var consumptions = await _renewableEnergyPlantService.GetConsumptionByDateRange(id, startDate, endDate);
+
+                // Verificar si se encontraron resultados
                 if (consumptions == null || consumptions.Count == 0)
-                    return NotFound("No monthly consumption data found for the specified plant on the given date.");
+                {
+                    return NotFound("No monthly consumption data found for the specified plant and month.");
+                }
 
                 return Ok(consumptions);
             }
@@ -139,6 +115,7 @@ namespace Energy360_Info.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
+
 
         //Obtencion del consumo anual
         [HttpGet("yearly/{id}")]

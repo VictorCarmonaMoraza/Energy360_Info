@@ -18,14 +18,14 @@ public class RenewableEnergyPlantRepository : IRenewableEnergyPlantRepository
     //Guarda planta en BD
     public async Task SavePlant(RenewableEnergyPlant plant)
     {
-        _context.RenewableEnergyPlants.Add(plant);
+        _context.RenewableEnergyPlant.Add(plant);
         await _context.SaveChangesAsync();
     }
 
     //Obtiene todos las plantas
     public async Task<List<RenewableEnergyPlant>> GetAllPlants()
     {
-        var plants = await _context.RenewableEnergyPlants
+        var plants = await _context.RenewableEnergyPlant
         .ToListAsync();
 
         return plants;
@@ -86,7 +86,7 @@ public class RenewableEnergyPlantRepository : IRenewableEnergyPlantRepository
     //Comrpobar que el nombre de la planta no exista en BBDD
     public async Task<bool> ValidatePlantExists(RenewableEnergyPlant renewableEnergyPlant)
     {
-        bool exists = await _context.RenewableEnergyPlants.AnyAsync(x =>
+        bool exists = await _context.RenewableEnergyPlant.AnyAsync(x =>
         x.Name == renewableEnergyPlant.Name &&
         (x.EnergyTypeId != renewableEnergyPlant.EnergyTypeId || x.Country != renewableEnergyPlant.Country || x.CityOrRegion != renewableEnergyPlant.CityOrRegion)
         );
@@ -95,7 +95,7 @@ public class RenewableEnergyPlantRepository : IRenewableEnergyPlantRepository
 
     public Task<RenewableEnergyPlant> GetPlantById(int id)
     {
-        return _context.RenewableEnergyPlants.FirstOrDefaultAsync(x => x.Id == id);
+        return _context.RenewableEnergyPlant.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<RenewableEnergyConsumption>> GetConsumptionByDateAndHour(int plantId, DateTime specificDateTime)

@@ -14,8 +14,8 @@ namespace Modelos.Entities
         [Required]
         [Column(TypeName = "varchar(20)")]
         public string NameUser { get; set; }
-        [Required]
-        [Column(TypeName = "varchar(50)")]
-        public string Password { get; set; }
+
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
     }
 }

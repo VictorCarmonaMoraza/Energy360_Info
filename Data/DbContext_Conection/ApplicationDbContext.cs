@@ -9,8 +9,8 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<User> Users { get; set; }
-    public DbSet<RenewableEnergyPlant> RenewableEnergyPlants { get; set; }
+    public DbSet<User> User { get; set; }
+    public DbSet<RenewableEnergyPlant> RenewableEnergyPlant { get; set; }
     public DbSet<RenewableEnergyDataHistory> RenewableEnergyDataHistorys { get; set; }
     public DbSet<EnergyType> EnergyTypes { get; set; }
     public DbSet<RenewableEnergyConsumption> RenewableEnergyConsumptions { get; set; }
